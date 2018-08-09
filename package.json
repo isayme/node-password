@@ -1,0 +1,40 @@
+{
+  "name": "upash",
+  "version": "0.1.0",
+  "description": "A HTTP service for upash",
+  "scripts": {
+    "start": "node app/app.js",
+    "dev": "NODE_ENV=dev npm start",
+    "prettier": "prettier-standard 'app/**/*.js' 'config/*.js' 'test/**/*.js'",
+    "lint": "standard",
+    "pretest": "npm run lint",
+    "test": "nyc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/isayme/upash.git"
+  },
+  "keywords": [
+    "upash",
+    "password",
+    "pbkdf2",
+    "argon2",
+    "scrypt",
+    "bcrypt"
+  ],
+  "author": "iSayme <isaymeorg@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/isayme/upash/issues"
+  },
+  "homepage": "https://github.com/isayme/upash#readme",
+  "dependencies": {
+    "config": "^2.0.1",
+    "koa": "^2.5.2",
+    "koa-router": "^7.4.0"
+  },
+  "devDependencies": {
+    "prettier-standard": "^8.0.1",
+    "standard": "^11.0.1"
+  }
+}
