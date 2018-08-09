@@ -2,6 +2,7 @@
   "name": "upash",
   "version": "0.1.0",
   "description": "A HTTP service for upash",
+  "private": true,
   "scripts": {
     "start": "node app/app.js",
     "dev": "NODE_ENV=dev npm start",
@@ -29,9 +30,15 @@
   },
   "homepage": "https://github.com/isayme/upash#readme",
   "dependencies": {
+    "@phc/argon2": "^1.0.9",
+    "@phc/bcrypt": "^1.0.2",
+    "@phc/pbkdf2": "^1.1.14",
+    "@phc/scrypt": "^1.0.4",
     "config": "^2.0.1",
     "koa": "^2.5.2",
-    "koa-router": "^7.4.0"
+    "koa-bodyparser": "^4.2.1",
+    "koa-router": "^7.4.0",
+    "upash": "^1.0.2"
   },
   "devDependencies": {
     "prettier-standard": "^8.0.1",
