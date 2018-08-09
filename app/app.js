@@ -34,6 +34,9 @@ router.post('/verify', async (ctx, next) => {
 app.use(router.routes()).use(router.allowedMethods())
 
 const port = config.port || 3000
-app.listen(port, () => {
-  console.log(`listening ${port} ...`)
+const server = app.listen(port, () => {
+  const address = server.address()
+  console.info(`listen ${address.address}:${address.port}`)
 })
+
+module.exports = server
