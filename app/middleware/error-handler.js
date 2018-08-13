@@ -1,4 +1,4 @@
-const debug = require('debug')('upash:error-handler')
+const debug = require('debug')('node-password:error-handler')
 
 module.exports = async (ctx, next) => {
   try {

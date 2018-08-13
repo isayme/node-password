@@ -1,5 +1,5 @@
 {
-  "name": "upash",
+  "name": "node-password",
   "version": "0.1.0",
   "description": "A HTTP service for upash",
   "private": true,

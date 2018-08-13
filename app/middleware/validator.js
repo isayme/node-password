@@ -1,6 +1,6 @@
 const Ajv = require('ajv')
 const createError = require('http-errors')
-const debug = require('debug')('upash:validator')
+const debug = require('debug')('node-password:validator')
 
 module.exports = schema => {
   return async (ctx, next) => {
