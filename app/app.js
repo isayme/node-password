@@ -2,11 +2,14 @@ const Koa = require('koa')
 const Router = require('koa-router')
 const bodyParser = require('koa-bodyparser')
 const config = require('config')
+const createError = require('http-errors')
+const validator = require('./middleware/validator')
 const pkg = require('../package.json')
 const passwordUtil = require('./password')
 
 const app = new Koa()
 app.use(bodyParser())
+app.use(require('./middleware/error-handler'))
 
 const router = new Router()
 
@@ -17,19 +20,59 @@ router.get('/version', (ctx, next) => {
   }
 })
 
-router.post('/hash', async (ctx, next) => {
-  const { algorithm, password, options } = ctx.request.body
-  const hashed = await passwordUtil.hash(algorithm, password, options)
+router.post(
+  '/hash',
+  validator({
+    type: 'object',
+    properties: {
+      algorithm: {
+        type: 'string'
+      },
+      password: {
+        type: 'string'
+      }
+    },
+    required: ['password']
+  }),
+  async (ctx, next) => {
+    const { algorithm, password } = ctx.request.body
 
-  ctx.body = { hashed }
-})
+    if (algorithm && !passwordUtil.isSupported(algorithm)) {
+      throw createError.BadRequest(`not support algorithm: ${algorithm}`)
+    }
 
-router.post('/verify', async (ctx, next) => {
-  const { hashed, password } = ctx.request.body
-  const match = await passwordUtil.verify(hashed, password)
+    const hashed = await passwordUtil.hash(algorithm, password)
 
-  ctx.body = { match }
-})
+    ctx.body = { hashed }
+  }
+)
+
+router.post(
+  '/verify',
+  validator({
+    type: 'object',
+    properties: {
+      hashed: {
+        type: 'string'
+      },
+      password: {
+        type: 'string'
+      }
+    },
+    required: ['hashed', 'password']
+  }),
+  async (ctx, next) => {
+    const { hashed, password } = ctx.request.body
+
+    if (!passwordUtil.validFormat(hashed)) {
+      throw createError.BadRequest(`not valid hashed password format: ${hashed}`)
+    }
+
+    const match = await passwordUtil.verify(hashed, password)
+
+    ctx.body = { match }
+  }
+)
 
 app.use(router.routes()).use(router.allowedMethods())
 

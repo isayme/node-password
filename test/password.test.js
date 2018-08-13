@@ -1,9 +1,5 @@
 describe('password util', () => {
-  describe('hash', () => {
+  describe('hash', () => {})
 
-  })
-
-  describe('verify', () => {
-
-  })
+  describe('verify', () => {})
 })

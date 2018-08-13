@@ -13,5 +13,18 @@ module.exports = {
 
   verify (hashstr, password) {
     return upash.verify(hashstr, password)
+  },
+
+  isSupported (algorithm) {
+    return upash.list().includes(algorithm)
+  },
+
+  validFormat (hashed) {
+    try {
+      let algorithm = upash.which(hashed)
+      return !!algorithm
+    } catch (err) {
+      return false
+    }
   }
 }
