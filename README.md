@@ -41,3 +41,4 @@ POST /verify
 
 ## Links
 - [upash](https://github.com/simonepri/upash)
+- [Password Hashing Competition](https://password-hashing.net/)
