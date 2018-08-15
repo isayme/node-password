@@ -13,7 +13,7 @@ A password hash/verify service.
 ## APIs
 ### Hash
 ```
-POST /hash
+POST /v1/hash
 {
   password: 'your secret password',
   algorithm: 'any of supported' // default to pbkdf2
@@ -27,7 +27,7 @@ POST /hash
 
 ### Verify
 ```
-POST /verify
+POST /v1/verify
 {
   password: 'your secret password',
   hashed: 'hashed password to be verified'
