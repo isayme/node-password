@@ -11,16 +11,43 @@ const app = new Koa()
 app.use(bodyParser())
 app.use(require('./middleware/error-handler'))
 
-const router = new Router()
+const rootRouter = new Router()
 
-router.get('/version', (ctx, next) => {
+rootRouter.get('/', (ctx, next) => {
+  const host = `${ctx.protocol}://${ctx.host}`
+
+  ctx.body = {
+    hash: {
+      method: 'POST',
+      url: `${host}/v1/hash`,
+      body: {
+        password: 'your plain password',
+        algorithm: 'algorithm to be used, default to pbkdf2'
+      }
+    },
+    verify: {
+      method: 'POST',
+      url: `${host}/v1/verify`,
+      body: {
+        password: 'your plain password',
+        hashed: 'hashed password by /v1/hash'
+      }
+    }
+  }
+})
+
+rootRouter.get('/version', (ctx, next) => {
   ctx.body = {
     name: pkg.name,
     version: pkg.version
   }
 })
 
-router.post(
+const passwordRouter = new Router({
+  prefix: '/v1'
+})
+
+passwordRouter.post(
   '/hash',
   validator({
     type: 'object',
@@ -47,7 +74,7 @@ router.post(
   }
 )
 
-router.post(
+passwordRouter.post(
   '/verify',
   validator({
     type: 'object',
@@ -74,7 +101,8 @@ router.post(
   }
 )
 
-app.use(router.routes()).use(router.allowedMethods())
+app.use(rootRouter.routes()).use(rootRouter.allowedMethods())
+app.use(passwordRouter.routes()).use(passwordRouter.allowedMethods())
 
 const port = config.port || 3000
 const server = app.listen(port, () => {
