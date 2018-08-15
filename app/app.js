@@ -8,6 +8,7 @@ const pkg = require('../package.json')
 const passwordUtil = require('./password')
 
 const app = new Koa()
+app.proxy = true
 app.use(bodyParser())
 app.use(require('./middleware/error-handler'))
 
